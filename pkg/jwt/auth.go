@@ -61,14 +61,12 @@ func ValidateToken(tokenString string) (uint, string, error) {
 func VerifyToken(c *gin.Context) {
 	token, ok := getToken(c)
 	if !ok {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
-		return
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
 	}
 
 	id, name, err := ValidateToken(token)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
-		return
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
 	}
 
 	c.Set("id", id)
